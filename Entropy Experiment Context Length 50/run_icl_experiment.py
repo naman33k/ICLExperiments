@@ -14,7 +14,7 @@ sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
 from config import ExperimentConfig
 from dataset_setup import DatasetManager
-from model_training import ModelManager
+from model_training import ModelManager, launch_ddp_training
 from evaluation import Evaluator
 
 
@@ -35,7 +35,8 @@ def main():
     print()
     
     # Check CUDA availability
-    print(f"CUDA devices available: {torch.cuda.device_count()}")
+    num_gpus = torch.cuda.device_count()
+    print(f"CUDA devices available: {num_gpus}")
     if torch.cuda.is_available():
         print(f"Using device: {torch.cuda.get_device_name()}")
     else:
@@ -44,7 +45,6 @@ def main():
     
     # Initialize managers
     dataset_manager = DatasetManager(config)
-    model_manager = ModelManager(config)
     evaluator = Evaluator(config)
     
     # Setup dataset
@@ -60,7 +60,24 @@ def main():
     
     # Train models
     print("Training models...")
-    model_dicts, trainer_dicts = model_manager.train_models(mixed_dataset)
+    if num_gpus > 1:
+        print(f"Multiple GPUs detected ({num_gpus}), using DDP training")
+        # Use DDP training
+        result = launch_ddp_training(config, mixed_dataset, num_gpus)
+        if result is None:
+            print("DDP training failed, falling back to single GPU")
+            model_manager = ModelManager(config, use_ddp=False)
+            model_dicts, trainer_dicts = model_manager.train_models(mixed_dataset)
+        else:
+            print("DDP training completed successfully")
+            # For DDP, we need to reload the models for evaluation
+            model_manager = ModelManager(config, use_ddp=False)
+            model_dicts, trainer_dicts = model_manager.train_models(mixed_dataset)
+    else:
+        print("Single GPU detected, using regular training")
+        model_manager = ModelManager(config, use_ddp=False)
+        model_dicts, trainer_dicts = model_manager.train_models(mixed_dataset)
+    
     print("Model training completed!")
     print()
     
