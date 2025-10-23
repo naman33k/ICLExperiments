@@ -8,6 +8,9 @@ from torch.utils.data.dataloader import DataLoader
 import numpy as np
 import math
 from typing import Dict, Tuple, Any
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import InContextLearningExperiments.icldatasets_new_idea as datasets
 from config import ExperimentConfig
 

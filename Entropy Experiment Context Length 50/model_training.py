@@ -6,6 +6,9 @@ Handles GPT model creation, training, and management.
 import torch
 import numpy as np
 from typing import Dict, Tuple, List
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import minGPT
 from minGPT.mingpt.model import GPT
 from minGPT.mingpt.trainer import Trainer
