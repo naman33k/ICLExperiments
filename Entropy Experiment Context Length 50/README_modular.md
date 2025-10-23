@@ -36,6 +36,8 @@ ICLExperiments/
 ### 3. `model_training.py`
 - `ModelManager` class handles GPT model creation and training
 - Supports multiple model configurations (different depths/heads)
+- **Distributed Data Parallel (DDP) support** for multi-GPU training
+- Automatic GPU detection and DDP initialization
 - Training monitoring and callback management
 
 ### 4. `evaluation.py`
@@ -46,10 +48,16 @@ ICLExperiments/
 
 ### 5. `run_icl_experiment.py`
 - Main script that orchestrates the entire experiment
+- **Automatically detects multiple GPUs and uses DDP training**
 - Runs dataset setup, model training, and evaluation
 - Saves all results with timestamps
 
-### 6. `test_modular.py`
+### 6. `run_icl_experiment_ddp.py`
+- DDP-specific runner for distributed training
+- Designed to be launched with `torch.distributed.launch`
+- Handles multi-GPU training with proper synchronization
+
+### 7. `test_modular.py`
 - Test script to verify the modularization works correctly
 - Tests imports, configuration, and basic functionality
 - Run this first to ensure everything is set up properly
@@ -70,11 +78,14 @@ cd "Entropy Experiment Context Length 50"
 
 ### Basic Usage
 ```bash
-# Run the full experiment
+# Run the full experiment (automatically detects and uses multiple GPUs)
 python run_icl_experiment.py
 
 # Or test the modularization first
 python test_modular.py
+
+# For explicit DDP training (if you have multiple GPUs)
+python -m torch.distributed.launch --nproc_per_node=N run_icl_experiment_ddp.py
 ```
 
 ### Customizing Configuration
@@ -126,11 +137,13 @@ The experiment generates:
 ## Key Features
 
 - **Modular Design**: Each component is separate and reusable
+- **Distributed Data Parallel (DDP)**: Automatic multi-GPU training support
 - **Timestamped Results**: All outputs include timestamps for easy tracking
 - **Configurable**: Easy to modify experiment parameters
 - **Error Handling**: Robust error handling and logging
 - **Visualization**: High-quality plots with proper styling
 - **Documentation**: Well-documented code with type hints
+- **GPU Detection**: Automatically detects and utilizes available GPUs
 
 ## Dependencies
 
