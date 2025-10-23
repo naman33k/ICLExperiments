@@ -6,14 +6,19 @@ This directory contains the modularized version of the ICL (In-Context Learning)
 
 ```
 ICLExperiments/
-├── config.py                 # Configuration parameters
-├── dataset_setup.py          # Dataset creation and loading
-├── model_training.py         # GPT model creation and training
-├── evaluation.py             # Model evaluation and plotting
-├── run_icl_experiment.py     # Main script to run the experiment
-├── test_modular.py           # Test script to verify modularization
-├── results/                  # Directory for saved plots and results
-└── README_modular.md         # This file
+├── Entropy Experiment Context Length 50/     # This experiment directory
+│   ├── config.py                 # Configuration parameters
+│   ├── dataset_setup.py          # Dataset creation and loading
+│   ├── model_training.py         # GPT model creation and training
+│   ├── evaluation.py             # Model evaluation and plotting
+│   ├── run_icl_experiment.py     # Main script to run the experiment
+│   ├── test_modular.py           # Test script to verify modularization
+│   ├── results/                  # Directory for saved plots and results
+│   └── README_modular.md         # This file
+├── OldNotebooksCheckpoint/       # Original Jupyter notebooks
+├── ICLExperiments/              # Virtual environment
+├── InContextLearningExperiments/ # Dataset modules
+└── minGPT/                      # GPT implementation
 ```
 
 ## Modules Overview
@@ -56,6 +61,11 @@ ICLExperiments/
 ```bash
 cd /home/naman33k/ICLExperiments
 source ICLExperiments/bin/activate
+```
+
+2. Navigate to the experiment directory:
+```bash
+cd "Entropy Experiment Context Length 50"
 ```
 
 ### Basic Usage
