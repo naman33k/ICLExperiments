@@ -140,7 +140,7 @@ class DatasetManager:
         l = self.config.context_length
         p = 1 - self.config.mixing_fraction
         
-        ideal = (np.log(float(math.factorial(l))) + p * (np.log(float(math.factorial(l))))) / (2 * l)
-        dumb_mode = (np.log(float(math.factorial(l))) + p * l * (np.log(float(l)))) / (2 * l)
+        ideal = (np.log(float(math.factorial(l-1))) + p * (np.log(float(math.factorial(l))))) / (2 * l - 1)
+        dumb_mode = (np.log(float(math.factorial(l-1))) + p * l * (np.log(float(l)))) / (2 * l - 1)
         
         return ideal, dumb_mode

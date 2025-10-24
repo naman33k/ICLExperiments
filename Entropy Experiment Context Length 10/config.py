@@ -14,8 +14,8 @@ class ExperimentConfig:
     """Configuration class for ICL experiments."""
     
     # Dataset parameters
-    context_length: int = 50
-    vocab_size: int = 50
+    context_length: int = 10
+    vocab_size: int = 10
     mixing_fraction: float = 0.9  # 1 - p where p=0.1
     perm_or_random: str = 'perm'
     
